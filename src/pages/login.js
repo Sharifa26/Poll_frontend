@@ -1,49 +1,55 @@
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import styled from '@emotion/styled';
 
-const Login = () => {
-  const [formData, setFormData] = useState({ username: '', password: '' });
+const Form = styled.form`
+  margin: 50px auto;
+  max-width: 400px;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+`;
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+const Input = styled.input`
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+`;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const Button = styled.button`
+  margin: 20px 0;
+  padding: 10px 20px;
+  width: 100%;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+
+  &:hover {
+    background: #0056b3;
+  }
+`;
+
+export default function Login() {
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = async (data) => {
     try {
-      const response = await axios.post('/api/login', formData);
-      localStorage.setItem('token', response.data.token);
-      alert('Login successful!');
-      window.location.href = '/polls';
+      const response = await axios.post('http://localhost:2005/login', data);
+      alert(response.data.message);
     } catch (error) {
-      alert('Login failed: ' + error.response.data.message);
+      alert(error.response.data.message);
     }
   };
 
   return (
-    <div className="container">
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
-    </div>
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <h2>Login</h2>
+      <Input placeholder="Username" {...register('username')} required />
+      <Input placeholder="Password" type="password" {...register('password')} required />
+      <Button type="submit">Login</Button>
+    </Form>
   );
-};
-
-export default Login;
+}

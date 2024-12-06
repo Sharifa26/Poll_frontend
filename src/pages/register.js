@@ -1,74 +1,82 @@
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import styled from '@emotion/styled';
 
-const Register = () => {
-  const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-    age: '',
-    gender: '',
-    location: '',
-  });
+const Form = styled.form`
+  margin: 50px auto;
+  max-width: 400px;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+`;
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+const Input = styled.input`
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+`;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('/api/register', formData);
-      alert(response.data.message);
-      window.location.href = '/login';
-    } catch (error) {
-      alert('Registration failed: ' + error.response.data.message);
-    }
-  };
+const Select = styled.select`
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #333;
+  background-color: #fff;
 
-  return (
-    <div className="container">
-      <h1>Register</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="number"
-          name="age"
-          placeholder="Age"
-          value={formData.age}
-          onChange={handleChange}
-        />
-        <select name="gender" value={formData.gender} onChange={handleChange}>
-          <option value="">Select Gender</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-        </select>
-        <input
-          type="text"
-          name="location"
-          placeholder="Location"
-          value={formData.location}
-          onChange={handleChange}
-        />
-        <button type="submit">Register</button>
-      </form>
-    </div>
-  );
-};
+  option {
+    color: #333;
+    font-size: 16px;
+    padding: 10px;
+  }
+`;
 
-export default Register;
+
+const Button = styled.button`
+  margin: 20px 0;
+  padding: 10px 20px;
+  width: 100%;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+
+  &:hover {
+    background: #0056b3;
+  }
+`;
+
+export default function Register() {
+    const { register, handleSubmit } = useForm();
+
+    const onSubmit = async (data) => {
+        try {
+            const response = await axios.post('http://localhost:2005/register', data);
+            alert(response.data.message);
+        } catch (error) {
+            alert(error.response.data.message);
+        }
+    };
+
+    return (
+        <Form onSubmit={handleSubmit(onSubmit)}>
+            <h2>Register</h2>
+            <Input placeholder="Username" {...register('username')} required />
+            <Input placeholder="Password" type="password" {...register('password')} required />
+            <Input placeholder="Age" type="number" {...register('age')} />
+            <Select {...register('gender')}>
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </Select>
+
+            <Input placeholder="Location" {...register('location')} />
+            <Button type="submit">Register</Button>
+        </Form>
+    );
+}

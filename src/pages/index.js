@@ -1,18 +1,38 @@
-import React from 'react';
+import Link from 'next/link';
+import styled from '@emotion/styled';
 
-const Home = () => {
+const Container = styled.div`
+  text-align: center;
+  color: black;
+  padding: 50px;
+`;
+
+const Button = styled.button`
+  margin: 20px;
+  padding: 15px 30px;
+  font-size: 18px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background: #0056b3;
+  }
+`;
+
+export default function Home() {
   return (
-    <div className="container text-center">
-      <h1>Welcome to the Polling App</h1>
-      <p className="mt-4">
-        Create polls, participate in exciting surveys, and view results in real-time.
-      </p>
-      <div className="mt-4">
-        <a href="/register" className="btn btn-primary">Register</a>
-        <a href="/login" className="btn btn-secondary ml-4">Login</a>
-      </div>
-    </div>
+    <Container>
+      <h1>Welcome to the Poll System</h1>
+      <p>Create, vote, and view polls dynamically!</p>
+      <Link href="/register">
+        <Button>Register</Button>
+      </Link>
+      <Link href="/login">
+        <Button>Login</Button>
+      </Link>
+    </Container>
   );
-};
-
-export default Home;
+}
