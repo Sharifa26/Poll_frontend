@@ -1,0 +1,53 @@
+/* Reset styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Poppins', 'Open Sans', 'Helvetica', 'Lato', sans-serif;
+    background: url('/public/assets/images/background.jpg') no-repeat center center fixed;
+    color: #333;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
+  
+  input, textarea {
+    font-family: inherit;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+  }
+  
+  /* Container styling for consistent layout */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  /* Utility classes */
+  .text-center {
+    text-align: center;
+  }
+  
+  .mt-4 {
+    margin-top: 1rem;
+  }
+  
+  .mb-4 {
+    margin-bottom: 1rem;
+  }
+  
