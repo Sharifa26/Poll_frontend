@@ -11,7 +11,7 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
-  margin: 10px 0;
+  margin: 10px -9px;
   padding: 10px;
   width: 100%;
   border: 1px solid #ddd;
