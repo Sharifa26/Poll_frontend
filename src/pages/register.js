@@ -40,13 +40,18 @@ const Button = styled.button`
   margin: 20px 0;
   padding: 10px 20px;
   width: 100%;
-  background: #007bff;
+  background: linear-gradient(135deg, #8e24aa, #3949ab); /* Purple to blue */
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px; /* Rounded edges */
+  cursor: pointer;
+  transition: all 0.3s ease; /* Smooth transition on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
 
   &:hover {
-    background: #0056b3;
+    background: linear-gradient(135deg, #7b1fa2, #303f9f); /* Darker on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+    transform: translateY(-2px); /* Lift effect */
   }
 `;
 

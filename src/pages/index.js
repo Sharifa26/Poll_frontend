@@ -15,14 +15,14 @@ const Container = styled.div`
 const Title = styled.h1`
   font-size: 4rem; /* Larger font size */
   font-weight: bold;
-  color: #e0f7fa; /* Light cyan for contrast */
+  color: black; /* Black for contrast */
   margin-bottom: 20px;
 `;
 
 const Description = styled.p`
   font-size: 2rem; /* Larger font size for description */
   font-weight: bold;
-  color: #d1c4e9; /* Soft lavender */
+  color: black; /* Black for contrast */
   margin-bottom: 50px; /* Space between description and buttons */
 `;
 
@@ -44,7 +44,7 @@ const Button = styled.button`
 
   &:hover {
     background: linear-gradient(135deg, #7b1fa2, #303f9f); /* Darker on hover */
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
     transform: translateY(-2px); /* Lift effect */
   }
 `;
