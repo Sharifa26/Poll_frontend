@@ -6,7 +6,7 @@ const globalStyles = css`
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-image: url('/assets/images/background.jpg'); /* Correct path */
+    background-image: url('/assets/images/purple_back.jpg'); /* Correct path */
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed; /* Keeps the background fixed */
