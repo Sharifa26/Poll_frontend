@@ -96,19 +96,23 @@ const CornerMessage = styled.div`
     }
   }
 `;
-
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Register() {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post('http://localhost:2005/register', data);
+      const response = await axios.post(`${API_BASE_URL}v2/register`, data,{withCredentials: true, });
       alert(response.data.message);
+      window.location.href = '/login';
     } catch (error) {
-      alert(error.response.data.message);
+      // Check if error.response is available and has the required data
+      const errorMessage = error.response?.data?.message || error.message || 'Unknown error';
+      alert('Registration failed: ' + errorMessage);
     }
   };
+
 
   return (
     <PageContainer>
