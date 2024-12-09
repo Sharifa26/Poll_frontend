@@ -1,45 +1,66 @@
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import styled from '@emotion/styled';
+import Link from 'next/link';
+
+
+const PageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
+const FormContainer = styled.div`
+  background: #d8bfd8; /* Light purple for the card */
+  padding: 40px;
+  border-radius: 20px; /* Rounded corners for card shape */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+`;
+
+const Title = styled.h2`
+  font-size: 1.8rem;
+  color: #333; /* Darker text for readability */
+  margin-bottom: 20px;
+`;
 
 const Form = styled.form`
-  margin: 50px auto;
-  max-width: 400px;
-  padding: 20px;
-  background: white;
-  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Input = styled.input`
-  margin: 10px -9px;
+  margin: 10px -6px;
   padding: 10px;
   width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  border: 1px solid #9370DB; /* purple border for inputs */
+  border-radius: 10px; /* Rounded edges */
+  background-color: #ffffff; /* White input field */
+  font-size: 1rem;
 `;
 
 const Select = styled.select`
-  margin: 10px 0;
+  margin: 10px -6px;
   padding: 10px;
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
-  color: #333;
-  background-color: #fff;
+  width: 105%;
+  border: 1px solid #9370DB; /* purple border for select */
+  border-radius: 10px;
+  background-color: #ffffff;
+  font-size: 1rem;
 
   option {
+    font-size: 1rem;
     color: #333;
-    font-size: 16px;
-    padding: 10px;
   }
 `;
 
-
 const Button = styled.button`
-  margin: 20px 0;
+  margin: 20px -6px;
   padding: 10px 20px;
-  width: 100%;
+  width: 105%;
   background: linear-gradient(135deg, #8e24aa, #3949ab); /* Purple to blue */
   color: white;
   border: none;
@@ -47,6 +68,8 @@ const Button = styled.button`
   cursor: pointer;
   transition: all 0.3s ease; /* Smooth transition on hover */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  font-size: 1.3rem;
+
 
   &:hover {
     background: linear-gradient(135deg, #7b1fa2, #303f9f); /* Darker on hover */
@@ -55,33 +78,60 @@ const Button = styled.button`
   }
 `;
 
+// Add this styled component for the message
+const CornerMessage = styled.div`
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #333; /* Dark gray for readability */
+  text-align: center;
+
+  a {
+    color: #3949ab; /* purple color for links */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #8e24aa; /* purple color on hover */
+    }
+  }
+`;
+
+
 export default function Register() {
-    const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm();
 
-    const onSubmit = async (data) => {
-        try {
-            const response = await axios.post('http://localhost:2005/register', data);
-            alert(response.data.message);
-        } catch (error) {
-            alert(error.response.data.message);
-        }
-    };
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post('http://localhost:2005/register', data);
+      alert(response.data.message);
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
 
-    return (
+  return (
+    <PageContainer>
+      <FormContainer>
+        <Title>Register</Title>
         <Form onSubmit={handleSubmit(onSubmit)}>
-            <h2>Register</h2>
-            <Input placeholder="Username" {...register('username')} required />
-            <Input placeholder="Password" type="password" {...register('password')} required />
-            <Input placeholder="Age" type="number" {...register('age')} />
-            <Select {...register('gender')}>
-                <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-            </Select>
-
-            <Input placeholder="Location" {...register('location')} />
-            <Button type="submit">Register</Button>
+          <Input placeholder="Username" {...register('username')} required />
+          <Input placeholder="Password" type="password" {...register('password')} required />
+          <Input placeholder="Age" type="number" {...register('age')} required />
+          <Select {...register('gender')} required >
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </Select>
+          <Input placeholder="Location" {...register('location')} required />
+          <Button type="submit">Register</Button>
         </Form>
-    );
+        {/* Add the login message here */}
+        <CornerMessage>
+          Already registered? <Link href="/login" passHref>Login here</Link>
+        </CornerMessage>
+      </FormContainer>
+    </PageContainer>
+  );
 }
