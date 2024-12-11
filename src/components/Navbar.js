@@ -36,7 +36,7 @@ const NavLinks = styled.div`
 export default function NavBar() {
   return (
     <NavBarContainer>
-      <Logo>🎯 Poll System</Logo>
+      <Logo>🎯 Poll Fun</Logo>
       <NavLinks>
         <Link href="/home">Home</Link>
         <Link href="/polls">Polls</Link>
