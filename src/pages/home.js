@@ -40,6 +40,8 @@ export default function Home() {
           <FactCard>🎉 Over 60% of people participate in polls just for fun!</FactCard>
           <FactCard>📊 Polls can predict elections with surprising accuracy!</FactCard>
           <FactCard>🌍 Polls help gauge opinions worldwide in real time.</FactCard>
+          <FactCard>🧠 Polls help researchers understand human behavior and societal trends.</FactCard>
+          <FactCard>💡 Polls can be used to inform political campaigns and public policy.</FactCard>
         </FactContainer>
       </HomeContainer>
     </>
