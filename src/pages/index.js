@@ -1,3 +1,4 @@
+// pages/index.js 
 import Link from 'next/link';
 import styled from '@emotion/styled';
 

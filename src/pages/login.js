@@ -1,3 +1,4 @@
+// pages/login.js
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import styled from '@emotion/styled';
@@ -88,7 +89,7 @@ export default function Login() {
     try {
       const response = await axios.post(`${API_BASE_URL}v2/login`, data, { withCredentials: true });
       alert(response.data.message);
-      window.location.href = '/dashboard';  // Redirect to a protected route (replace '/dashboard' with your actual path)
+      window.location.href = '/home'; // Redirect to a protected route (replace '/home' with your actual path)
     } catch (error) {
       const errorMessage = error.response?.data?.message || error.message || 'Unknown error';
       alert('Login failed: ' + errorMessage);
