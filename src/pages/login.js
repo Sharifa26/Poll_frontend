@@ -92,8 +92,8 @@ export default function Login() {
       const token = response.data.token;
 
       // Store the token in session storage
-      sessionStorage.setItem('authToken', token);
-      
+      localStorage.setItem('authToken', token);
+
       alert(response.data.message);
       window.location.href = '/home'; // Redirect to a protected route (replace '/home' with your actual path)
     } catch (error) {

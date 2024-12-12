@@ -86,11 +86,11 @@ export default function Profile() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const token = sessionStorage.getItem('authToken');
+        const token = localStorage.getItem('authToken');
         if (!token) {
           throw new Error('User is not logged in.');
         }
-  
+
         // Fetch user data
         const userResponse = await axios.get(
           `${API_BASE_URL}v2/user`,
@@ -101,8 +101,9 @@ export default function Profile() {
             },
           }
         );
+        
         setUser(userResponse.data);
-  
+
         // Fetch user polls
         const pollsResponse = await axios.get(
           `${API_BASE_URL}v2/polls/user`,
@@ -115,13 +116,15 @@ export default function Profile() {
         );
         setPolls(pollsResponse.data.polls);
       } catch (error) {
-        console.error('Error fetching data:', error.message);
+        // Handle errors
+        const errorMessage = error.response?.data?.message || error.message || 'An error occurred while fetching user data.';
+        console.error('Error fetching user data:', errorMessage);
+        alert(errorMessage); // Optionally alert the user
       }
     };
-  
+
     fetchUserData();
   }, []);
-  
 
   if (!user) {
     return <p>Loading...</p>;
@@ -134,11 +137,11 @@ export default function Profile() {
         {/* Left Section - User Profile */}
         <LeftSection>
           <Title>Profile</Title>
-          <ProfileImage gender={user.gender} />
-          <ProfileDetail>Username: {user.username}</ProfileDetail>
-          <ProfileDetail>Gender: {user.gender}</ProfileDetail>
-          <ProfileDetail>Age: {user.age}</ProfileDetail>
-          <ProfileDetail>Location: {user.location}</ProfileDetail>
+          <ProfileImage gender={user.polls.gender} />
+          <ProfileDetail>Username: {user.polls.username}</ProfileDetail>
+          <ProfileDetail>Gender: {user.polls.gender}</ProfileDetail>
+          <ProfileDetail>Age: {user.polls.age}</ProfileDetail>
+          <ProfileDetail>Location: {user.polls.location}</ProfileDetail>
           <EditButton>Edit Profile</EditButton>
         </LeftSection>
 
