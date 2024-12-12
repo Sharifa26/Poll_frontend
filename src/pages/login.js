@@ -88,6 +88,12 @@ export default function Login() {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(`${API_BASE_URL}v2/login`, data, { withCredentials: true });
+      // Assuming the token is in `response.data.token`
+      const token = response.data.token;
+
+      // Store the token in session storage
+      sessionStorage.setItem('authToken', token);
+      
       alert(response.data.message);
       window.location.href = '/home'; // Redirect to a protected route (replace '/home' with your actual path)
     } catch (error) {

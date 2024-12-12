@@ -1,4 +1,5 @@
 // pages/_app.js
+import Head from 'next/head';
 import { Global, css } from '@emotion/react';
 
 const globalStyles = css`
@@ -17,6 +18,11 @@ const globalStyles = css`
 export default function MyApp({ Component, pageProps }) {
   return (
     <>
+      {/* Set title and favicon */}
+      <Head>
+        <title>Poll Fun</title> {/* Tab Name */}
+        <link rel="icon" href="/assets/images/icon.png" /> {/* Favicon */}
+      </Head>
       <Global styles={globalStyles} />
       <Component {...pageProps} />
     </>

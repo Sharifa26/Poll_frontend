@@ -53,7 +53,7 @@ const Button = styled.button`
 export default function Home() {
   return (
     <Container>
-      <Title>Welcome to the Poll System</Title>
+      <Title>Welcome to the Poll Fun🎯</Title>
       <Description>Create, vote, and view polls dynamically!</Description>
       <ButtonContainer>
         <Link href="/register" passHref>
