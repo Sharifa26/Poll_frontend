@@ -21,7 +21,7 @@ export default function MyApp({ Component, pageProps }) {
       {/* Set title and favicon */}
       <Head>
         <title>Poll Fun</title> {/* Tab Name */}
-        <link rel="icon" href="/assets/images/icon.png" /> {/* Favicon */}
+        <link rel="icon" href="/assets/images/poll.png" /> {/* Favicon */}
       </Head>
       <Global styles={globalStyles} />
       <Component {...pageProps} />
