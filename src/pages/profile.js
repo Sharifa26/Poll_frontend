@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ProfileImage from '../components/ProfileImage';
 
-
 const ProfileContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -68,21 +67,22 @@ const PollItem = styled.div`
     font-size: 1.5rem;
     color: #333;
   }
-
-  p {
-    font-size: 1.1rem;
-    color: #555;
-  }
 `;
-
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Profile() {
   const [user, setUser] = useState(null);
-  const [polls, setPolls] = useState([]);
+  const [createdPolls, setCreatedPolls] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({
+    username: '',
+    age: '',
+    gender: '',
+    location: '',
+  });
 
-  // Fetch user profile and polls
+  // Fetch user profile and created polls
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -92,39 +92,58 @@ export default function Profile() {
         }
 
         // Fetch user data
-        const userResponse = await axios.get(
-          `${API_BASE_URL}v2/user`,
-          {
-            withCredentials: true,
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
-        
-        setUser(userResponse.data);
+        const userResponse = await axios.get(`${API_BASE_URL}v2/user`, {
+          withCredentials: true,
+          headers: { Authorization: token },
+        });
 
-        // Fetch user polls
-        const pollsResponse = await axios.get(
-          `${API_BASE_URL}v2/polls/user`,
-          {
-            withCredentials: true,
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
-        setPolls(pollsResponse.data.polls);
+        setUser(userResponse.data);
+        setFormData({
+          username: userResponse.data.polls.username || '',
+          age: userResponse.data.polls.age || '',
+          gender: userResponse.data.polls.gender || '',
+          location: userResponse.data.polls.location || '',
+        });
+
+        // Fetch created polls
+        const pollsResponse = await axios.get(`${API_BASE_URL}v2/polls/user`, {
+          withCredentials: true,
+          headers: { Authorization: token },
+        });
+        setCreatedPolls(pollsResponse.data.polls);
       } catch (error) {
-        // Handle errors
-        const errorMessage = error.response?.data?.message || error.message || 'An error occurred while fetching user data.';
-        console.error('Error fetching user data:', errorMessage);
-        alert(errorMessage); // Optionally alert the user
+        console.error('Error fetching user data:', error.message);
+        alert('Error fetching user data.');
       }
     };
 
     fetchUserData();
   }, []);
+
+  // Handle input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  // Submit updated user data
+  const handleSave = async () => {
+    try {
+      const token = localStorage.getItem('authToken');
+      await axios.put(
+        `${API_BASE_URL}v2/user/${user.polls._id}`, // Replace with user ID
+        formData,
+        { headers: { Authorization: token } }
+      );
+
+      alert('Profile updated successfully!');
+      setIsEditing(false);
+      window.location.reload(); // Reload to fetch updated data
+    } catch (error) {
+      console.error('Error updating profile:', error.message);
+      alert('Failed to update profile.');
+    }
+  };
 
   if (!user) {
     return <p>Loading...</p>;
@@ -138,25 +157,64 @@ export default function Profile() {
         <LeftSection>
           <Title>Profile</Title>
           <ProfileImage gender={user.polls.gender} />
-          <ProfileDetail>Username: {user.polls.username}</ProfileDetail>
-          <ProfileDetail>Gender: {user.polls.gender}</ProfileDetail>
-          <ProfileDetail>Age: {user.polls.age}</ProfileDetail>
-          <ProfileDetail>Location: {user.polls.location}</ProfileDetail>
-          <EditButton>Edit Profile</EditButton>
+          {isEditing ? (
+            <>
+              <input
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                placeholder="Username"
+              />
+              <input
+                name="age"
+                value={formData.age}
+                onChange={handleChange}
+                placeholder="Age"
+              />
+              <input
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                placeholder="Gender"
+              />
+              <input
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+                placeholder="Location"
+              />
+              <button onClick={handleSave}>Save</button>
+            </>
+          ) : (
+            <>
+              <ProfileDetail>
+                Username: <strong>{user.polls.username}</strong>
+              </ProfileDetail>
+              <ProfileDetail>
+                Gender: <strong>{user.polls.gender}</strong>
+              </ProfileDetail>
+              <ProfileDetail>
+                Age: <strong>{user.polls.age}</strong>
+              </ProfileDetail>
+              <ProfileDetail>
+                Location: <strong>{user.polls.location}</strong>
+              </ProfileDetail>
+              <EditButton onClick={() => setIsEditing(true)}>Edit Profile</EditButton>
+            </>
+          )}
         </LeftSection>
 
-        {/* Right Section - User Polls */}
+        {/* Right Section - Created Polls */}
         <RightSection>
-          <Title>Voted Polls</Title>
-          {polls.length > 0 ? (
-            polls.map((poll) => (
-              <PollItem key={poll.id}>
+          <Title>Created Polls</Title>
+          {createdPolls.length > 0 ? (
+            createdPolls.map((poll) => (
+              <PollItem key={poll._id}>
                 <h3>{poll.question}</h3>
-                <p>Selected Option: {poll.selectedOption}</p>
               </PollItem>
             ))
           ) : (
-            <p>You have not voted in any polls yet.</p>
+            <p>You have not created any polls yet.</p>
           )}
         </RightSection>
       </ProfileContainer>

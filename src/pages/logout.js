@@ -1,39 +1,8 @@
-// components/NavbarWithLogout.js
-import Link from 'next/link';
 import styled from '@emotion/styled';
 import { useState } from 'react';
+import axios from 'axios';
 import { useRouter } from 'next/router';
-
-const NavBarContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 50px;
-  background: #8e24aa;
-  color: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-`;
-
-const Logo = styled.div`
-  font-size: 2rem;
-  font-weight: bold;
-`;
-
-const NavLinks = styled.div`
-  display: flex;
-  gap: 30px;
-
-  a {
-    color: white;
-    text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: bold;
-
-    &:hover {
-      color: #ffccff;
-    }
-  }
-`;
+import NavBar from '../components/Navbar';
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -97,42 +66,44 @@ const CancelButton = styled.button`
   }
 `;
 
-export default function NavBarWithLogout() {
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+export default function Home() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const router = useRouter();
 
+  // Handle Logout
   const handleLogout = async () => {
     try {
+      await axios.post(`${API_BASE_URL}v2/logout`, {}, { withCredentials: true });
+
+      // Clear localStorage if needed
       localStorage.removeItem('authToken');
+
       alert('Logged out successfully!');
-      setShowLogoutModal(false);
-      router.push('/');
+      setShowLogoutModal(false); // Close modal
+      router.push('/index'); // Redirect to home page
     } catch (error) {
       console.error('Logout failed:', error.response || error.message);
       alert('Failed to logout. Please try again.');
     }
   };
 
+  // Cancel Logout
   const handleCancel = () => {
-    setShowLogoutModal(false);
+    setShowLogoutModal(false); // Close the modal
   };
 
   return (
     <>
-      <NavBarContainer>
-        <Logo>🎯 Poll Fun</Logo>
-        <NavLinks>
-          <Link href="/home">Home</Link>
-          <Link href="/polls">Polls</Link>
-          <Link href="/profile">Profile</Link>
-          <a href="#" onClick={() => setShowLogoutModal(true)}>Logout</a>
-        </NavLinks>
-      </NavBarContainer>
+      <NavBar onLogoutClick={() => setShowLogoutModal(true)} />
 
+      {/* Logout Confirmation Modal */}
       {showLogoutModal && (
         <ModalOverlay>
           <ModalBox>
             <ModalTitle>Are you sure you want to logout?</ModalTitle>
+
             <ButtonRow>
               <CancelButton onClick={handleCancel}>Cancel</CancelButton>
               <ConfirmButton onClick={handleLogout}>Logout</ConfirmButton>
