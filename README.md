@@ -58,6 +58,10 @@ Make sure you have the following installed:
    ```
    http://localhost:3000
    ```
+## Images
+![image](https://github.com/user-attachments/assets/1abbaf92-377c-47b9-bcb0-18e8e16cffc0)
+![image](https://github.com/user-attachments/assets/8a0c1fa4-9e05-49b9-b22a-c5237b477d8c)
+![image](https://github.com/user-attachments/assets/7ae3f08a-afe0-4ca6-870a-41c5f078db6e)
 
 ## 📂 Project Structure
 
