@@ -24,9 +24,11 @@ const PollCard = styled.div`
   text-align: left;
 `;
 
-const Title = styled.h2`
-  font-size: 2rem;
-  margin-bottom: 20px;
+const TotalVotes = styled.div`
+  font-weight: bold;
+  color: black;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
 `;
 
 const PollQuestion = styled.h3`
@@ -45,10 +47,25 @@ const OptionButton = styled.button`
   margin: 5px 0;
   width: 100%;
   text-align: left;
+  display: flex;  /* Enable flexbox */
+  justify-content: space-between; /* This will push content to the left and right */
+  align-items: center; /* Vertically center the content */
 
   &:hover {
     background-color: #0288d1;
   }
+`;
+
+const OptionVotes = styled.span`
+  color: black;
+  font-weight: bold;
+  margin-left: 10px; /* Optional, to create space between the option text and vote count */
+
+`;
+
+const Title = styled.h2`
+  font-size: 2rem;
+  margin-bottom: 20px;
 `;
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -57,23 +74,23 @@ export default function Polls() {
   const [polls, setPolls] = useState([]);
   const colors = ['#e3f2fd', '#f3e5f5', '#ede7f6', '#e8f5e9'];
 
-  useEffect(() => {
-    // Fetch polls using Axios
-    const fetchPolls = async () => {
-      try {
-        const response = await axios.get(`${API_BASE_URL}v2/polls`, { withCredentials: true });
-        if (response.data.success) {
-          setPolls(response.data.polls);
-        } else {
-          console.error('Error fetching polls:', response.data.message);
-        }
-      } catch (error) {
-        const errorMessage = error.response?.data?.message || error.message || 'Unknown error';
-        console.error('Error fetching polls:', errorMessage);
+  // Fetch polls function
+  const fetchPolls = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}v2/polls`, { withCredentials: true });
+      if (response.data.success) {
+        setPolls(response.data.polls); // Update the state with fetched polls
+      } else {
+        console.error('Error fetching polls:', response.data.message);
       }
-    };
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || error.message || 'Unknown error';
+      console.error('Error fetching polls:', errorMessage);
+    }
+  };
 
-    fetchPolls();
+  useEffect(() => {
+    fetchPolls(); // Initial fetch on component mount
   }, []);
 
   // Handle voting
@@ -81,24 +98,24 @@ export default function Polls() {
     try {
       const token = localStorage.getItem('authToken');
       if (!token) throw new Error('User is not logged in.');
-      const response = await axios.put(`${API_BASE_URL}v2/polls/vote/${pollId}`,
+
+      const response = await axios.put(
+        `${API_BASE_URL}v2/polls/vote/${pollId}`,
         { optionIndex },
         {
-          headers: {
-            Authorization: token,
-          },
+          headers: { Authorization: token },
           withCredentials: true,
         }
       );
+
       if (response.data.success) {
         alert('Vote cast successfully!');
-        // Optionally refresh polls
+        fetchPolls(); // Refresh polls after voting
       } else {
         alert('Error voting: ' + response.data.message);
       }
     } catch (error) {
       const errorMessage = error.response?.data?.message || error.message || 'Unknown error';
-      console.error('Error voting:', errorMessage);
       alert('Error voting: ' + errorMessage);
     }
   };
@@ -118,13 +135,15 @@ export default function Polls() {
           <PollRow key={rowIndex}>
             {row.map((poll, index) => (
               <PollCard key={poll._id} bgColor={colors[(rowIndex * 2 + index) % colors.length]}>
+                <TotalVotes>Total Votes: {poll.options.reduce((sum, opt) => sum + opt.votes, 0)}</TotalVotes>
                 <PollQuestion>{poll.question}</PollQuestion>
                 {poll.options.map((option, optionIndex) => (
                   <OptionButton
                     key={option._id}
-                    onClick={() => vote(poll._id, optionIndex)}
+                    onClick={() => vote(poll._id, optionIndex)} // Vote function
                   >
-                    {option.text} ({option.votes} votes)
+                    {option.text}
+                    <OptionVotes>{option.votes}</OptionVotes>
                   </OptionButton>
                 ))}
               </PollCard>
