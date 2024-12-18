@@ -210,7 +210,7 @@ export default function Home() {
           <FactCard>🌐 Global polls provide insights into cross-cultural values and beliefs.</FactCard>
           <FactCard>📞 Telephone polling was the most popular method before the internet revolution.</FactCard>
           <FactCard>🎮 Gamified polls increase participation rates by up to 50%.</FactCard>
-          <FactCard>🌐 Global polls provide insights into cross-cultural values and beliefs.</FactCard>
+          <FactCard>🧩 Short polls (1-3 questions) have 70% higher completion rates.</FactCard>
         </FactContainer>
 
         {/* Create Poll Button */}
