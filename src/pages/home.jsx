@@ -191,9 +191,9 @@ export default function Home() {
   };
 
   // Close modal function
-const handleCancel = () => {
-  setShowModal(false); // Close the modal
-};
+  const handleCancel = () => {
+    setShowModal(false); // Close the modal
+  };
 
   return (
     <>
@@ -207,6 +207,10 @@ const handleCancel = () => {
           <FactCard>🌍 Polls help gauge opinions worldwide in real time.</FactCard>
           <FactCard>🧠 Polls help researchers understand human behavior and societal trends.</FactCard>
           <FactCard>💡 Polls can be used to inform political campaigns and public policy.</FactCard>
+          <FactCard>🌐 Global polls provide insights into cross-cultural values and beliefs.</FactCard>
+          <FactCard>📞 Telephone polling was the most popular method before the internet revolution.</FactCard>
+          <FactCard>🎮 Gamified polls increase participation rates by up to 50%.</FactCard>
+          <FactCard>🌐 Global polls provide insights into cross-cultural values and beliefs.</FactCard>
         </FactContainer>
 
         {/* Create Poll Button */}
