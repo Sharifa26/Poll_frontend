@@ -99,16 +99,16 @@ export default function Polls() {
   // Handle voting
   const vote = async (pollId, optionIndex) => {
     try {
+
       const token = localStorage.getItem('authToken');
       if (!token) {
         throw new Error('User is not logged in.');
       }
-
       const response = await axios.put(
         `${API_BASE_URL}v2/polls/vote/${pollId}`,
         { optionIndex },
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: token },
           withCredentials: true,
         }
       );
