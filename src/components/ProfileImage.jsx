@@ -8,16 +8,19 @@ export default function ProfileImage({ gender }) {
   const femaleImage = '/assets/images/female.webp';
 
   return (
-    <Image
-      src={gender === 'male' ? maleImage : femaleImage}
-      alt="User avatar"
+    <div
       style={{
         borderRadius: '50%',
-        marginBottom: '10px',
-        width: '150px', // Adjust size
-        height: '150px', // Adjust size
-        objectFit: 'cover',
+        marginBottom: '10px'
       }}
-    />
+    >
+      <Image
+        src={gender === 'male' ? maleImage : femaleImage}
+        alt="User avatar"
+        width={150}
+        height={150}
+        objectFit="cover"
+      />
+    </div>
   );
 }
