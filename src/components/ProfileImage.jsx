@@ -1,4 +1,6 @@
 import React from 'react';
+import Image from 'next/image';
+
 
 export default function ProfileImage({ gender }) {
   // Define paths for male and female images
@@ -6,7 +8,7 @@ export default function ProfileImage({ gender }) {
   const femaleImage = '/assets/images/female.webp';
 
   return (
-    <img
+    <Image
       src={gender === 'male' ? maleImage : femaleImage}
       alt="User avatar"
       style={{

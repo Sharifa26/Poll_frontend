@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import NavBar from '../components/Navbar';
 
+
 const PollsContainer = styled.div`
   padding: 50px;
   text-align: center;
@@ -47,9 +48,9 @@ const OptionButton = styled.button`
   margin: 5px 0;
   width: 100%;
   text-align: left;
-  display: flex;  /* Enable flexbox */
-  justify-content: space-between; /* This will push content to the left and right */
-  align-items: center; /* Vertically center the content */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   &:hover {
     background-color: #0288d1;
@@ -59,8 +60,7 @@ const OptionButton = styled.button`
 const OptionVotes = styled.span`
   color: black;
   font-weight: bold;
-  margin-left: 10px; /* Optional, to create space between the option text and vote count */
-
+  margin-left: 10px;
 `;
 
 const Title = styled.h2`
@@ -71,8 +71,8 @@ const Title = styled.h2`
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Polls() {
-  const [polls, setPolls] = useState([]);
-  const colors = ['#e3f2fd', '#f3e5f5', '#ede7f6', '#e8f5e9'];
+  const [polls, setPolls] = useState([]); // Initialize state for polls
+  const colors = ['#e3f2fd', '#f3e5f5', '#ede7f6', '#e8f5e9']; // Define colors for poll cards
 
   // Fetch polls function
   const fetchPolls = async () => {
@@ -84,26 +84,28 @@ export default function Polls() {
         console.error('Error fetching polls:', response.data.message);
       }
     } catch (error) {
-      const errorMessage = error.response?.data?.message || error.message || 'Unknown error';
-      console.error('Error fetching polls:', errorMessage);
+      console.error('Error fetching polls:', error.message || 'Unknown error');
     }
   };
 
+  // Fetch polls when the component is mounted
   useEffect(() => {
-    fetchPolls(); // Initial fetch on component mount
-  }, []);
+    fetchPolls();
+  }, []); // Dependency array ensures this runs only once
 
   // Handle voting
   const vote = async (pollId, optionIndex) => {
     try {
       const token = localStorage.getItem('authToken');
-      if (!token) throw new Error('User is not logged in.');
+      if (!token) {
+        throw new Error('User is not logged in.');
+      }
 
       const response = await axios.put(
         `${API_BASE_URL}v2/polls/vote/${pollId}`,
         { optionIndex },
         {
-          headers: { Authorization: token },
+          headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         }
       );
@@ -112,11 +114,11 @@ export default function Polls() {
         alert('Vote cast successfully!');
         fetchPolls(); // Refresh polls after voting
       } else {
-        alert('Error voting: ' + response.data.message);
+        alert(`Error voting: ${response.data.message}`);
       }
     } catch (error) {
-      const errorMessage = error.response?.data?.message || error.message || 'Unknown error';
-      alert('Error voting: ' + errorMessage);
+      console.error('Error voting:', error.message || 'Unknown error');
+      alert(`Error voting: ${error.message || 'Unknown error'}`);
     }
   };
 
@@ -134,13 +136,18 @@ export default function Polls() {
         {groupedPolls.map((row, rowIndex) => (
           <PollRow key={rowIndex}>
             {row.map((poll, index) => (
-              <PollCard key={poll._id} bgColor={colors[(rowIndex * 2 + index) % colors.length]}>
-                <TotalVotes>Total Votes: {poll.options.reduce((sum, opt) => sum + opt.votes, 0)}</TotalVotes>
+              <PollCard
+                key={poll._id}
+                bgColor={colors[(rowIndex * 2 + index) % colors.length]}
+              >
+                <TotalVotes>
+                  Total Votes: {poll.options.reduce((sum, opt) => sum + opt.votes, 0)}
+                </TotalVotes>
                 <PollQuestion>{poll.question}</PollQuestion>
                 {poll.options.map((option, optionIndex) => (
                   <OptionButton
                     key={option._id}
-                    onClick={() => vote(poll._id, optionIndex)} // Vote function
+                    onClick={() => vote(poll._id, optionIndex)}
                   >
                     {option.text}
                     <OptionVotes>{option.votes}</OptionVotes>

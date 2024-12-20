@@ -112,7 +112,7 @@ export default function Login() {
           <Button type="submit">Login</Button>
         </Form>
         <CornerMessage>
-          Don't have an account? <Link href="/register" passHref>Register here</Link>
+          Don&apos;t have an account? <Link href="/register" passHref>Register here</Link>
         </CornerMessage>
       </FormContainer>
     </PageContainer>
