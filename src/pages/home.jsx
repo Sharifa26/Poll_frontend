@@ -4,6 +4,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import NavBar from '../components/Navbar';
+require('dotenv').config();
+
 
 const HomeContainer = styled.div`
   text-align: center;

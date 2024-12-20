@@ -3,6 +3,8 @@ import NavBar from '../components/Navbar';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ProfileImage from '../components/ProfileImage';
+require('dotenv').config();
+
 
 const ProfileContainer = styled.div`
   display: flex;

@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import styled from '@emotion/styled';
 import Link from 'next/link';
+require('dotenv').config();
+
 
 const PageContainer = styled.div`
   display: flex;
@@ -81,13 +83,14 @@ const CornerMessage = styled.div`
 `;
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-
+console.log(API_BASE_URL)
 export default function Login() {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(`${API_BASE_URL}v2/login`, data, { withCredentials: true });
+      console.log(response.data);
       // Assuming the token is in `response.data.token`
       const token = response.data.token;
 
@@ -118,3 +121,4 @@ export default function Login() {
     </PageContainer>
   );
 }
+

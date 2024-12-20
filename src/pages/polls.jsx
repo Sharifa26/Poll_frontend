@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import NavBar from '../components/Navbar';
+require('dotenv').config();
+
 
 
 const PollsContainer = styled.div`
