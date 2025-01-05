@@ -1,3 +1,4 @@
+// pages/profile.js
 import styled from '@emotion/styled';
 import NavBar from '../components/Navbar';
 import { useEffect, useState } from 'react';
@@ -9,66 +10,104 @@ dotenv.config();
 
 const ProfileContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  padding: 50px;
+  flex-direction: column; /* Stack for mobile by default */
+  padding: 20px;
   background: #f7f7f7;
   min-height: 100vh;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    padding: 50px;
+  }
 `;
 
 const LeftSection = styled.div`
   flex: 1;
   background: #f3e5f5;
-  padding: 40px;
-  border-radius: 15px;
+  padding: 20px;
+  border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
+  margin-bottom: 20px; /* Space between sections on mobile */
+
+  @media (min-width: 768px) {
+    margin-bottom: 0;
+    padding: 40px;
+    border-radius: 15px;
+  }
 `;
 
 const RightSection = styled.div`
   flex: 1.5;
   background: #fff;
-  padding: 40px;
-  border-radius: 15px;
+  padding: 20px;
+  border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   overflow-y: auto;
+
+  @media (min-width: 768px) {
+    padding: 40px;
+    border-radius: 15px;
+  }
 `;
 
 const Title = styled.h2`
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #4a148c;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+
+  @media (min-width: 768px) {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
 `;
 
 const ProfileDetail = styled.p`
-  font-size: 1.2rem;
-  margin: 10px 0;
+  font-size: 1rem;
+  margin: 8px 0;
+
+  @media (min-width: 768px) {
+    font-size: 1.2rem;
+    margin: 10px 0;
+  }
 `;
 
+
 const EditButton = styled.button`
-  padding: 10px 20px;
-  margin-top: 20px;
-  font-size: 1.2rem;
+  padding: 8px 16px;
+  margin-top: 15px;
+  font-size: 1rem;
   background: #8e24aa;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
 
   &:hover {
     background: #6a1b9a;
   }
+
+  @media (min-width: 768px) {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+  }
 `;
 
 const PollItem = styled.div`
   margin-bottom: 10px;
-  padding: 15px;
+  padding: 10px;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 6px;
   background: #fafafa;
 
   h3 {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: #333;
+
+    @media (min-width: 768px) {
+      font-size: 1rem;
+    }
   }
 `;
 
@@ -76,31 +115,53 @@ const FormField = styled.div`
   margin-bottom: 15px;
 
   label {
-    display: block;
-    font-size: 1rem;
+    font-size: 0.9rem;
     margin-bottom: 5px;
+
+    @media (min-width: 768px) {
+      font-size: 1rem;
+    }
   }
 
   input, select {
-    width: 70%;
-    padding: 10px;
+    width: 100%;
+    padding: 8px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 5px;
+
+    @media (min-width: 768px) {
+      width: 70%;
+      padding: 10px;
+    }
   }
 `;
 
 const ButtonGroup = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+  flex-direction: column; /* Stack buttons on mobile */
+  gap: 10px;
+  margin-top: 15px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0;
+    margin-top: 20px;
+  }
 
   button {
-    padding: 10px 20px;
-    font-size: 1.2rem;
+    padding: 8px 16px;
+    font-size: 1rem;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
+
+    @media (min-width: 768px) {
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      border-radius: 8px;
+    }
   }
 
   .save {
@@ -113,6 +174,7 @@ const ButtonGroup = styled.div`
     color: #333;
   }
 `;
+
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 

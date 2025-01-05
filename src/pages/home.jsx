@@ -10,13 +10,21 @@ dotenv.config();
 
 const HomeContainer = styled.div`
   text-align: center;
-  padding: 50px;
+  padding: 20px; /* Reduced padding for smaller screens */
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
 
 const Title = styled.h1`
-  font-size: 3rem;
+  font-size: 2.5rem; /* Reduced font size for mobile */
   color: #4a148c;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    font-size: 1.8rem;
+  }
 `;
 
 const FactContainer = styled.div`
@@ -24,23 +32,33 @@ const FactContainer = styled.div`
   justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
 `;
 
 const FactCard = styled.div`
   width: 300px;
-  padding: 20px;
+  padding: 15px; /* Adjust padding for mobile */
   background: #f3e5f5;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  font-size: 1.2rem;
+  font-size: 1rem; /* Adjust font size for mobile */
+
+  @media (max-width: 768px) {
+    width: 90%; /* Make cards take up most of the screen width */
+  }
 `;
 
 const CreateButton = styled.button`
   position: fixed;
-  bottom: 30px;
-  right: 30px;
-  padding: 15px 25px;
-  font-size: 1.2rem;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px; /* Adjust padding for mobile */
+  font-size: 1rem; /* Adjust font size for mobile */
   background: linear-gradient(135deg, #6a1b9a, #8e24aa);
   color: white;
   border: none;
@@ -51,6 +69,78 @@ const CreateButton = styled.button`
 
   &:hover {
     transform: scale(1.1);
+  }
+`;
+
+const ModalBox = styled.div`
+  background: #fff;
+  padding: 20px; /* Adjust padding for mobile */
+  border-radius: 10px;
+  width: 90%; /* Make modal fit within screen width */
+  max-width: 400px; /* Keep max width for larger screens */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
+`;
+
+const ModalTitle = styled.h2`
+  font-size: 1.5rem; /* Adjust font size for mobile */
+  color: #4a148c;
+  margin-bottom: 15px;
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+  }
+`;
+
+const Input = styled.input`
+  width: 100%; /* Ensure full width on mobile */
+  margin-bottom: 10px;
+  padding: 8px; /* Adjust padding for mobile */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.9rem; /* Adjust font size for mobile */
+`;
+
+const AddOptionButton = styled.button`
+  margin: 8px 0;
+  padding: 6px 10px; /* Adjust padding for mobile */
+  background: #8e24aa;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem; /* Adjust font size for mobile */
+  cursor: pointer;
+
+  &:hover {
+    background: #6a1b9a;
+  }
+`;
+
+const ButtonRow = styled.div`
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically on mobile */
+  gap: 10px; /* Add spacing between buttons */
+
+  @media (min-width: 768px) {
+    flex-direction: row; /* Keep buttons side-by-side on larger screens */
+    justify-content: space-between;
+  }
+`;
+
+const SubmitButton = styled.button`
+  padding: 10px;
+  background: #8e24aa;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem; /* Adjust font size for mobile */
+  cursor: pointer;
+
+  &:hover {
+    background: #6a1b9a;
   }
 `;
 
@@ -66,79 +156,21 @@ const ModalOverlay = styled.div`
   align-items: center;
 `;
 
-const ModalBox = styled.div`
-  background: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  width: 400px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-`;
-
-const ModalTitle = styled.h2`
-  color: #4a148c;
-  margin-bottom: 20px;
-`;
-
-const Input = styled.input`
-  width: 95%;
-  margin-bottom: 15px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-`;
-
-const AddOptionButton = styled.button`
-  margin: 10px 0;
-  padding: 8px 12px;
-  background: #8e24aa;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    background: #6a1b9a;
-  }
-`;
-
-const ButtonRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-`;
-
-const SubmitButton = styled.button`
-  width: 45%;
-  padding: 10px;
-  background: #8e24aa;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  text-align: center;
-
-  &:hover {
-    background: #6a1b9a;
-  }
-`;
 
 const CancelButton = styled.button`
-  width: 45%;
   padding: 10px;
   background: #d32f2f;
   color: white;
   border: none;
   border-radius: 5px;
-  font-size: 1.2rem;
+  font-size: 1rem; /* Adjust font size for mobile */
   cursor: pointer;
-  text-align: center;
 
   &:hover {
     background: #b71c1c;
   }
 `;
+
 
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;

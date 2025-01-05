@@ -12,26 +12,82 @@ const NavBarContainer = styled.div`
   background: #8e24aa;
   color: white;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+  @media (max-width: 768px) {
+    padding: 15px 20px;
+  }
 `;
 
 const Logo = styled.div`
   font-size: 2rem;
   font-weight: bold;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const NavLinks = styled.div`
-  display: flex;
-  gap: 30px;
+  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  background: #8e24aa;
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  z-index: 10;
+
+  @media (min-width: 769px) {
+    display: flex;
+    position: static;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    flex-direction: row;
+    gap: 20px; /* Adds spacing between links */
+  }
 
   a {
+    display: block;
+    padding: 10px 20px;
+    margin: 5px 0;
+    font-size: 1rem;
+    font-weight: bold;
     color: white;
     text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: bold;
+    border-radius: 5px;
+    transition: background 0.3s ease, color 0.3s ease;
+
+    @media (min-width: 769px) {
+      margin: 0;
+      padding: 0;
+      font-size: 1.2rem;
+    }
 
     &:hover {
+      background: #7b1fa2;
       color: #ffccff;
     }
+  }
+`;
+
+
+const MenuButton = styled.button`
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+
+  &:hover {
+    transform: scale(1.1);
   }
 `;
 
@@ -51,7 +107,8 @@ const ModalBox = styled.div`
   background: #fff;
   padding: 30px;
   border-radius: 10px;
-  width: 400px;
+  width: 90%;
+  max-width: 400px;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 `;
@@ -99,6 +156,7 @@ const CancelButton = styled.button`
 
 export default function NavBarWithLogout() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -121,7 +179,10 @@ export default function NavBarWithLogout() {
     <>
       <NavBarContainer>
         <Logo>🎯 Poll Fun</Logo>
-        <NavLinks>
+        <MenuButton onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? '✖' : '☰'}
+        </MenuButton>
+        <NavLinks isOpen={menuOpen}>
           <Link href="/home">Home</Link>
           <Link href="/polls">Polls</Link>
           <Link href="/profile">Profile</Link>

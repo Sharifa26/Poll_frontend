@@ -7,34 +7,55 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full-screen height */
-  margin: 0; /* No margin */
+  height: 100vh; /* Full viewport height */
+  margin: 0;
   overflow: hidden; /* Prevent scrolling */
   text-align: center;
+  padding: 20px; /* Add padding for smaller screens */
+
+  @media (max-width: 768px) { /* Mobile view adjustments */
+    height: auto; /* Allow auto height for scrolling */
+    padding: 10px;
+  }
 `;
 
 const Title = styled.h1`
-  font-size: 4rem; /* Larger font size */
+  font-size: 4rem; /* Default size */
   font-weight: bold;
   color: black; /* Black for contrast */
   margin-bottom: 20px;
+
+  @media (max-width: 768px) { /* Mobile view */
+    font-size: 2.5rem; /* Reduce size */
+    margin-bottom: 15px;
+  }
 `;
 
 const Description = styled.p`
-  font-size: 2rem; /* Larger font size for description */
+  font-size: 2rem; /* Default size */
   font-weight: bold;
   color: black; /* Black for contrast */
   margin-bottom: 50px; /* Space between description and buttons */
+
+  @media (max-width: 768px) { /* Mobile view */
+    font-size: 1.5rem; /* Reduce size */
+    margin-bottom: 30px;
+  }
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   gap: 30px; /* Space between buttons */
+
+  @media (max-width: 768px) { /* Mobile view */
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 15px; /* Reduce gap */
+  }
 `;
 
 const Button = styled.button`
-  padding: 20px 50px; /* Bigger padding for prominent buttons */
-  font-size: 1.8rem; /* Bigger font for buttons */
+  padding: 20px 50px; /* Default padding */
+  font-size: 1.8rem; /* Default font size */
   background: linear-gradient(135deg, #8e24aa, #3949ab); /* Purple to blue */
   color: white;
   border: none;
@@ -47,6 +68,11 @@ const Button = styled.button`
     background: linear-gradient(135deg, #7b1fa2, #303f9f); /* Darker on hover */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
     transform: translateY(-2px); /* Lift effect */
+  }
+
+  @media (max-width: 768px) { /* Mobile view */
+    padding: 15px 30px; /* Adjust padding */
+    font-size: 1.5rem; /* Reduce font size */
   }
 `;
 

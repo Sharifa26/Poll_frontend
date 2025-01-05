@@ -13,22 +13,33 @@ const PageContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  padding: 20px; /* Add padding for mobile spacing */
+  background: linear-gradient(to bottom, #805882, #9e8bbf); /* Matching background */
 `;
 
 const FormContainer = styled.div`
   background: #d8bfd8; /* Light purple for the card */
   padding: 40px;
-  border-radius: 20px; /* Rounded corners for card shape */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   max-width: 400px;
   width: 100%;
   text-align: center;
+
+  @media (max-width: 768px) {
+    padding: 20px; /* Reduce padding on smaller screens */
+    border-radius: 15px; /* Slightly smaller border radius */
+  }
 `;
 
 const Title = styled.h2`
   font-size: 1.8rem;
-  color: #333; /* Darker text for readability */
+  color: #333;
   margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem; /* Smaller font size for mobile */
+  }
 `;
 
 const Form = styled.form`
@@ -37,23 +48,31 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
-  margin: 10px -6px;
+  margin: 10px 0; /* Simplify margins for consistent spacing */
   padding: 10px;
   width: 100%;
-  border: 1px solid #9370DB; /* purple border for inputs */
-  border-radius: 10px; /* Rounded edges */
-  background-color: #ffffff; /* White input field */
-  font-size: 1rem;
-`;
-
-const Select = styled.select`
-  margin: 10px -6px;
-  padding: 10px;
-  width: 105%;
-  border: 1px solid #9370DB; /* purple border for select */
+  border: 1px solid #9370db;
   border-radius: 10px;
   background-color: #ffffff;
   font-size: 1rem;
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem; /* Slightly smaller font size */
+  }
+`;
+
+const Select = styled.select`
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #9370db;
+  border-radius: 10px;
+  background-color: #ffffff;
+  font-size: 1rem;
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
 
   option {
     font-size: 1rem;
@@ -62,44 +81,52 @@ const Select = styled.select`
 `;
 
 const Button = styled.button`
-  margin: 20px -6px;
+  margin: 20px 0;
   padding: 10px 20px;
-  width: 105%;
-  background: linear-gradient(135deg, #8e24aa, #3949ab); /* Purple to blue */
+  width: 100%;
+  background: linear-gradient(135deg, #8e24aa, #3949ab);
   color: white;
   border: none;
-  border-radius: 10px; /* Rounded edges */
+  border-radius: 10px;
   cursor: pointer;
-  transition: all 0.3s ease; /* Smooth transition on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   font-size: 1.3rem;
 
-
   &:hover {
-    background: linear-gradient(135deg, #7b1fa2, #303f9f); /* Darker on hover */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
-    transform: translateY(-2px); /* Lift effect */
+    background: linear-gradient(135deg, #7b1fa2, #303f9f);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1rem; /* Smaller button text size */
+    padding: 10px; /* Adjust padding */
   }
 `;
 
-// Add this styled component for the message
 const CornerMessage = styled.div`
   margin-top: 10px;
   font-size: 0.9rem;
-  color: #333; /* Dark gray for readability */
+  color: #333;
   text-align: center;
 
   a {
-    color: #3949ab; /* purple color for links */
+    color: #3949ab;
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s ease;
 
     &:hover {
-      color: #8e24aa; /* purple color on hover */
+      color: #8e24aa;
     }
   }
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem; /* Adjust font size for mobile */
+  }
 `;
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Register() {
@@ -107,16 +134,16 @@ export default function Register() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}v2/register`, data,{withCredentials: true, });
+      const response = await axios.post(`${API_BASE_URL}v2/register`, data, {
+        withCredentials: true,
+      });
       alert(response.data.message);
       window.location.href = '/login';
     } catch (error) {
-      // Check if error.response is available and has the required data
-      const errorMessage = error.response?.data?.message || error.message || 'Unknown error';
+      const errorMessage =  error.response?.data?.message || error.message || 'Unknown error';
       alert('Registration failed: ' + errorMessage);
     }
   };
-
 
   return (
     <PageContainer>
@@ -126,7 +153,7 @@ export default function Register() {
           <Input placeholder="Username" {...register('username')} required />
           <Input placeholder="Password" type="password" {...register('password')} required />
           <Input placeholder="Age" type="number" {...register('age')} required />
-          <Select {...register('gender')} required >
+          <Select {...register('gender')} required>
             <option value="">Select Gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>

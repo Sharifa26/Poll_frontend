@@ -3,17 +3,34 @@ import Head from 'next/head';
 import { Global, css } from '@emotion/react';
 
 const globalStyles = css`
-  body {
+  html, body {
     margin: 0;
     padding: 0;
+    height: 100%; /* Ensures the body and html cover the viewport height */
     font-family: Arial, sans-serif;
-    background-image: url('/assets/images/purple_back.jpg'); /* Correct path */
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed; /* Keeps the background fixed */
-    background-position: center;
+    background: linear-gradient(to bottom, #805882, #9e8bbf); /* Smooth purple gradient */
+  }
+  
+  html, body, #__next {
+  height: 100%;
+  margin: 0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+  @media (max-width: 768px) { /* Mobile View */
+    html, body {
+      background: linear-gradient(to bottom, #805882, #9e8bbf); /* Mobile-friendly gradient */
+      background-attachment: scroll; /* Improves mobile performance */
+    }
   }
 `;
+
 
 export default function MyApp({ Component, pageProps }) {
   return (

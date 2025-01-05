@@ -1,3 +1,4 @@
+// pages/logout.js
 import styled from '@emotion/styled';
 import { useState } from 'react';
 import axios from 'axios';
@@ -5,7 +6,6 @@ import { useRouter } from 'next/router';
 import NavBar from '../components/Navbar';
 import dotenv from 'dotenv';
 dotenv.config();
-
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -26,17 +26,37 @@ const ModalBox = styled.div`
   width: 400px;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+  @media (max-width: 768px) {
+    width: 90%;
+    padding: 20px;
+  }
+
+  @media (max-width: 480px) {
+    width: 95%;
+    padding: 15px;
+  }
 `;
 
 const ModalTitle = styled.h2`
   color: #4a148c;
   margin-bottom: 20px;
+  font-size: 1.5rem;
+
+  @media (max-width: 480px) {
+    font-size: 1.2rem;
+  }
 `;
 
 const ButtonRow = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    gap: 10px;
+  }
 `;
 
 const ConfirmButton = styled.button`
@@ -52,17 +72,14 @@ const ConfirmButton = styled.button`
   &:hover {
     background: #6a1b9a;
   }
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `;
 
-const CancelButton = styled.button`
-  width: 45%;
-  padding: 10px;
+const CancelButton = styled(ConfirmButton)`
   background: #d32f2f;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 1.2rem;
-  cursor: pointer;
 
   &:hover {
     background: #b71c1c;
@@ -84,17 +101,16 @@ export default function Home() {
       localStorage.removeItem('authToken');
 
       alert('Logged out successfully!');
-      setShowLogoutModal(false); // Close modal
-      router.push('/index'); // Redirect to home page
+      setShowLogoutModal(false);
+      router.push('/index');
     } catch (error) {
       console.error('Logout failed:', error.response || error.message);
       alert('Failed to logout. Please try again.');
     }
   };
 
-  // Cancel Logout
   const handleCancel = () => {
-    setShowLogoutModal(false); // Close the modal
+    setShowLogoutModal(false);
   };
 
   return (
