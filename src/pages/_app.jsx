@@ -9,6 +9,10 @@ const globalStyles = css`
     height: 100%; /* Ensures the body and html cover the viewport height */
     font-family: Arial, sans-serif;
     background: linear-gradient(to bottom, #805882, #9e8bbf); /* Smooth purple gradient */
+    background-size: cover; /* Ensures the image covers the entire screen */
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Ensures the image doesn't repeat */
+    background-attachment: fixed; /* Makes the background static */
   }
   
   html, body, #__next {
@@ -26,7 +30,10 @@ const globalStyles = css`
   @media (max-width: 768px) { /* Mobile View */
     html, body {
       background: linear-gradient(to bottom, #805882, #9e8bbf); /* Mobile-friendly gradient */
-      background-attachment: scroll; /* Improves mobile performance */
+      background-size: cover; /* Ensures the image covers the entire screen */
+      background-position: center; /* Centers the background image */
+      background-repeat: no-repeat; /* Ensures the image doesn't repeat */
+      background-attachment: fixed; /* Makes the background static */
     }
   }
 `;
